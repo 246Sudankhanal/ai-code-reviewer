@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+
+jobs:
+  ci:
+    name: Lint and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Generate Prisma client
+        run: npx prisma generate
+        env:
+          DATABASE_URL: postgresql://sudan:sudan@localhost:5432/sudan_review
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+        env:
+          DATABASE_URL: postgresql://sudan:sudan@localhost:5432/sudan_review
+          BETTER_AUTH_SECRET: ci-better-auth-secret-32-chars-min
+          GITHUB_CLIENT_ID: ci-github-client
+          GITHUB_CLIENT_SECRET: ci-github-secret
+
+  docker:
+    name: Docker image and compose
+    runs-on: ubuntu-latest
+    needs: ci
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate Compose file
+        run: docker compose config
+
+      - name: Build image
+        run: docker build -t sudan-review:ci .
