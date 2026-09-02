@@ -13,7 +13,8 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 # Dummy URL so Prisma generate / Next build do not need a live database.
-ENV DATABASE_URL="postgresql://sudan:sudan@localhost:5432/sudan_review"
+# Runtime DATABASE_URL (Neon) comes from compose / your host env.
+ENV DATABASE_URL="postgresql://build:build@localhost:5432/build"
 RUN npm run build
 
 FROM node:22-alpine AS runner

@@ -10,6 +10,7 @@ export type ListedPullRequest = {
   headSha: string;
   baseBranch: string;
   status: string;
+  reviewComment: string | null;
   reviewedAt: string | null;
   createdAt: string;
   updatedAt: string;
@@ -39,6 +40,7 @@ export async function listPullRequests(
     headSha: pr.headSha,
     baseBranch: pr.baseBranch,
     status: pr.status,
+    reviewComment: pr.reviewComment,
     reviewedAt: pr.reviewedAt?.toISOString() ?? null,
     createdAt: pr.createdAt.toISOString(),
     updatedAt: pr.updatedAt.toISOString(),

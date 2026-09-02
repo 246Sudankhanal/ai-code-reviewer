@@ -8,7 +8,7 @@ function requireEnv(name: "PINECONE_API_KEY" | "PINECONE_INDEX") {
 
   if (!value) {
     throw new NonRetriableError(
-      `Missing ${name} in .env. Add PINECONE_API_KEY from Pinecone → API keys, and PINECONE_INDEX as the index name you created (e.g. sudan-review). Restart npm run dev after saving.`
+      `Missing ${name} in .env. Add PINECONE_API_KEY from Pinecone → API keys, and PINECONE_INDEX as the index name you created (e.g. flowai). Restart npm run dev after saving.`
     );
   }
 

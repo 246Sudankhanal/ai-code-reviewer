@@ -24,7 +24,7 @@ export function DashboardPageSkeleton({
           </div>
           <Skeleton className="h-8 w-full max-w-xs" />
         </div>
-        <div className="glass-panel overflow-hidden rounded-xl">
+        <div className="overflow-hidden rounded-xl border border-border bg-card">
           {Array.from({ length: rows }).map((_, index) => (
             <div
               key={index}

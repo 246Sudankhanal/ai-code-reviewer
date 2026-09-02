@@ -4,11 +4,11 @@ import {
     INNGEST_STEP_RETRIES,
 } from "@/features/inngest/job-limits";
 import { prisma } from "@/lib/db";
-import { formatPrFilesForReview, getPullRequestFiles } from "./pr-files";
+import { getPullRequestFiles, prepareDiffForLlm } from "./pr-files";
 import { generateReview } from "./generate-review";
-import { postPrComment } from "./post-pr-comment";
-import { chunkPrFiles } from "../utils/chunk-code";
-import { buildPrNamespace, saveChunksToPinecone, searchPrContext } from "./vector";
+import { evaluateReview } from "./judge-review";
+import { postPrReview } from "./post-pr-review";
+import { searchPrContext } from "./vector";
 import { buildRepoNamespace } from "@/features/repo-sync/server/repo-sync";
 
 
@@ -35,42 +35,44 @@ export const reviewPullRequest = inngest.createFunction(
         });
       });
   
-      const chunks = await step.run("breakdown-code", async () => {
+      const prepared = await step.run("prepare-diff", async () => {
         const files = await getPullRequestFiles(
           pullRequest.installationId,
           pullRequest.repoFullName,
           pullRequest.prNumber
         );
-  
-        // Turn unified diffs into fixed-size chunks for embedding
-        return chunkPrFiles(pullRequest.prNumber, files);
+
+        return prepareDiffForLlm(files);
       });
   
-      if (chunks.length === 0) {
+      if (!prepared.diffText.trim() || prepared.fileCount === 0) {
+        const emptyReview =
+          "No reviewable diff was found on this pull request (no file patches from GitHub, or only skipped lock/generated files). Nothing was posted as an AI review.";
+
         await step.run("mark-reviewed-no-code", async () => {
+          await postPrReview({
+            pullRequestId,
+            installationId: pullRequest.installationId,
+            repoFullName: pullRequest.repoFullName,
+            prNumber: pullRequest.prNumber,
+            commitSha: pullRequest.headSha,
+            summary: emptyReview,
+            inline: [],
+          });
+
           await prisma.pullRequest.update({
             where: { id: pullRequestId },
-            data: { status: "reviewed" },
+            data: {
+              status: "reviewed",
+              reviewComment: emptyReview,
+              reviewedAt: new Date(),
+            },
           });
         });
-  
+
         return { pullRequestId, status: "reviewed", reason: "no code to review" };
       }
   
-      // PR namespace isolates this diff from other PRs and from repo-wide sync data
-      const namespace = buildPrNamespace(
-        pullRequest.repoFullName,
-        pullRequest.prNumber
-      );
-  
-      await step.run("save-vectors-to-pinecone", async () => {
-        await saveChunksToPinecone(namespace, chunks);
-      });
-  
-      // Pinecone needs a short delay before new vectors appear in search results
-      await step.sleep("wait-for-vectors-to-index", "10s");
-  
-      // Extra context from the on-demand codebase sync, when the repo was synced
       const repoContextSnippets = await step.run("search-repo-context", async () => {
         const repoSync = await prisma.repoSync.findUnique({
           where: { repoFullName: pullRequest.repoFullName },
@@ -81,48 +83,94 @@ export const reviewPullRequest = inngest.createFunction(
         }
   
         const repoNamespace = buildRepoNamespace(pullRequest.repoFullName);
-        return searchPrContext(repoNamespace, pullRequest.title);
+        const query = `${pullRequest.title}\n${prepared.diffText.slice(0, 2000)}`;
+        return searchPrContext(repoNamespace, query);
       });
   
-      const review = await step.run("generate-ai-review", async () => {
-        // Search within this PR's namespace for chunks related to the PR title
-        const contextSnippets = await searchPrContext(
-          namespace,
-          pullRequest.title
-        );
-  
-        return generateReview({
+      const generated = await step.run("generate-ai-review", async () =>
+        generateReview({
           repoFullName: pullRequest.repoFullName,
           title: pullRequest.title,
-          contextSnippets,
+          diffText: prepared.diffText,
+          files: prepared.files,
           repoContextSnippets,
+        })
+      );
+
+      const judged = await step.run("judge-review", async () =>
+        evaluateReview({
+          review: generated.summary,
+          title: pullRequest.title,
+          repoFullName: pullRequest.repoFullName,
+          diffText: prepared.diffText,
+          repoContextSnippets,
+        })
+      );
+
+      if (judged.verdict === "block") {
+        await step.run("mark-blocked-by-judge", async () => {
+          await prisma.pullRequest.update({
+            where: { id: pullRequestId },
+            data: {
+              status: "failed",
+              reviewComment: generated.summary,
+              judgeScore: judged.score,
+              judgeVerdict: judged.verdict,
+              judgeRationale: judged.rationale,
+            },
+          });
+        });
+
+        return { pullRequestId, status: "failed", reason: "judge blocked" };
+      }
+
+      let finalReview = generated;
+
+      if (judged.verdict === "rewrite") {
+        finalReview = await step.run("rewrite-ai-review", async () =>
+          generateReview({
+            repoFullName: pullRequest.repoFullName,
+            title: pullRequest.title,
+            diffText: prepared.diffText,
+            files: prepared.files,
+            repoContextSnippets,
+            rewriteGuidance: judged.rationale,
+          })
+        );
+      }
+  
+      await step.run("post-pr-review", async () => {
+        return postPrReview({
+          pullRequestId,
+          installationId: pullRequest.installationId,
+          repoFullName: pullRequest.repoFullName,
+          prNumber: pullRequest.prNumber,
+          commitSha: pullRequest.headSha,
+          summary: finalReview.summary,
+          inline: finalReview.inline,
         });
       });
 
-      // Follow-up: insert `evaluateReview` here (see features/reviews/server/judge-review.ts)
-      // before posting so a second model can score/rewrite/block the comment.
-  
-      await step.run("post-pr-comment", async () => {
-        await postPrComment(
-          pullRequest.installationId,
-          pullRequest.repoFullName,
-          pullRequest.prNumber,
-          review
-        );
-      });
-  
       await step.run("mark-reviewed", async () => {
         await prisma.pullRequest.update({
           where: { id: pullRequestId },
           data: {
             status: "reviewed",
-            reviewComment: review,
+            reviewComment: finalReview.summary,
+            judgeScore: judged.score,
+            judgeVerdict: judged.verdict,
+            judgeRationale: judged.rationale,
             reviewedAt: new Date(),
           },
         });
       });
   
-      return { pullRequestId, status: "reviewed" };
+      return {
+        pullRequestId,
+        status: "reviewed",
+        judgeVerdict: judged.verdict,
+        diffTruncated: prepared.truncated,
+        inlineCount: finalReview.inline.length,
+      };
     }
   );
-  

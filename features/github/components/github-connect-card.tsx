@@ -155,8 +155,7 @@ export function GithubConnectCard({
                             <div>
                                 <CardTitle>GitHub App</CardTitle>
                                 <CardDescription>
-                                    Install the Chai reviewer app on your GitHub account or
-                                    organization to access public and private repositories.
+                                    Install FlowAI on your GitHub account or organization.
                                 </CardDescription>
                             </div>
                         </div>

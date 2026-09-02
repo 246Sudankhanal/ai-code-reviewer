@@ -4,7 +4,7 @@ export default function PullRequestsLoading() {
   return (
     <DashboardPageSkeleton
       title="Pull requests"
-      description="Review pipeline status across connected repositories."
+      description="Pipeline status and the latest summary. Open a row on GitHub for Files changed (inline) and the review on Conversation."
     />
   );
 }

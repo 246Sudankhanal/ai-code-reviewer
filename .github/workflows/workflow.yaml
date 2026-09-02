@@ -9,6 +9,13 @@ jobs:
   ci:
     name: Lint and build
     runs-on: ubuntu-latest
+    env:
+      # Placeholder only — Prisma generate / Next build do not open a live DB.
+      # Runtime uses Neon via DATABASE_URL in your host / container env.
+      DATABASE_URL: postgresql://ci:ci@localhost:5432/ci
+      BETTER_AUTH_SECRET: ci-better-auth-secret-32-chars-min
+      GITHUB_CLIENT_ID: ci-github-client
+      GITHUB_CLIENT_SECRET: ci-github-secret
     steps:
       - uses: actions/checkout@v4
 
@@ -22,22 +29,15 @@ jobs:
 
       - name: Generate Prisma client
         run: npx prisma generate
-        env:
-          DATABASE_URL: postgresql://sudan:sudan@localhost:5432/sudan_review
 
       - name: Lint
         run: npm run lint
 
       - name: Build
         run: npm run build
-        env:
-          DATABASE_URL: postgresql://sudan:sudan@localhost:5432/sudan_review
-          BETTER_AUTH_SECRET: ci-better-auth-secret-32-chars-min
-          GITHUB_CLIENT_ID: ci-github-client
-          GITHUB_CLIENT_SECRET: ci-github-secret
 
   docker:
-    name: Docker image and compose
+    name: Docker image
     runs-on: ubuntu-latest
     needs: ci
     steps:
@@ -47,4 +47,4 @@ jobs:
         run: docker compose config
 
       - name: Build image
-        run: docker build -t sudan-review:ci .
+        run: docker build -t flowai:ci .

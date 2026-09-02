@@ -62,7 +62,12 @@ model PullRequest {
   baseBranch     String
   status         String    @default("pending") // pending | processing | reviewed | rate_limited
   reviewComment  String? // AI-generated markdown saved after review completes
+  judgeScore     Int?
+  judgeVerdict   String? // post | rewrite | block
+  judgeRationale String?
   reviewedAt     DateTime?
+  /** HEAD sha we last successfully posted a GitHub review for (idempotency). */
+  postedHeadSha  String?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 

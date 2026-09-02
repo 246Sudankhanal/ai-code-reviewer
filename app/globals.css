@@ -118,12 +118,12 @@
 }
 
 @utility glass-panel {
-  background-color: color-mix(in oklch, var(--card) 78%, transparent);
-  backdrop-filter: blur(18px) saturate(1.35);
-  border: 1px solid color-mix(in oklch, var(--border) 85%, transparent);
+  background-color: color-mix(in oklch, var(--card) 92%, transparent);
+  backdrop-filter: blur(12px) saturate(1.05);
+  border: 1px solid color-mix(in oklch, var(--border) 90%, transparent);
   box-shadow:
-    0 1px 0 oklch(1 0 0 / 4%) inset,
-    0 18px 40px -24px oklch(0.2 0.04 255 / 0.45);
+    0 1px 0 oklch(1 0 0 / 5%) inset,
+    0 12px 32px -28px oklch(0.15 0.02 255 / 0.5);
 }
 
 @utility accent-gradient {
@@ -160,6 +160,11 @@
       radial-gradient(ellipse 90% 55% at 8% -15%, oklch(0.72 0.14 163 / 0.14), transparent 55%),
       radial-gradient(ellipse 70% 45% at 100% 0%, oklch(0.5 0.1 255 / 0.16), transparent 50%);
     background-attachment: fixed;
+  }
+  .dark body {
+    background-image:
+      radial-gradient(ellipse 80% 50% at 0% -20%, oklch(0.32 0.04 255 / 0.4), transparent 52%),
+      radial-gradient(ellipse 55% 40% at 100% 0%, oklch(0.26 0.03 250 / 0.28), transparent 48%);
   }
   button:not(:disabled), [role="button"]:not(:disabled) {
     cursor: pointer;

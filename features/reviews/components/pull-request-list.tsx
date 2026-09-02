@@ -105,7 +105,7 @@ export function PullRequestList({
         />
       </div>
 
-      <div className="glass-panel overflow-hidden rounded-xl">
+      <div className="overflow-hidden rounded-xl border border-border bg-card">
         {isPending && pullRequests.length === 0 ? (
           <p className="p-8 text-center text-sm text-muted-foreground">
             Loading pull requests…
@@ -126,7 +126,7 @@ export function PullRequestList({
                   href={`https://github.com/${pr.repoFullName}/pull/${pr.prNumber}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="surface-hover flex items-start gap-3 px-4 py-3 hover:bg-primary/5"
+                  className="flex items-start gap-3 px-4 py-3 transition-colors hover:bg-muted/40"
                 >
                   <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
                     <GitPullRequest className="size-4" />
@@ -145,6 +145,11 @@ export function PullRequestList({
                         addSuffix: true,
                       })}
                     </p>
+                    {pr.reviewComment ? (
+                      <p className="mt-2 line-clamp-3 text-xs leading-5 text-foreground/80">
+                        {pr.reviewComment}
+                      </p>
+                    ) : null}
                   </div>
                   <ArrowSquareOut className="mt-1 size-4 shrink-0 text-muted-foreground" />
                 </a>

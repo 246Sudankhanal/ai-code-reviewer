@@ -176,7 +176,7 @@ export function RepoList() {
             />
           </div>
     
-          <div className="glass-panel overflow-hidden rounded-xl">
+          <div className="overflow-hidden rounded-xl border border-border bg-card">
             <Table>
               <TableHeader>
                 <TableRow>

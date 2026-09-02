@@ -25,6 +25,7 @@ export default async function DashboardSettingsPage({
         profile={settings.profile}
         subscription={settings.subscription}
         usage={settings.usage}
+         defaultTab={billingStatus ? "subscription" : "profile"}
       />
     </>
   );

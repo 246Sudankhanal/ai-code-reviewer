@@ -5,17 +5,21 @@ import { getServerSession } from "@/features/auth/actions";
 import { SIGN_IN_PATH } from "@/features/auth/utils";
 import { DASHBOARD_ROUTES } from "@/features/dashboard/lib/routes";
 import { Button } from "@/components/ui/button";
+import { SampleReviewPreview } from "@/features/marketing/components/sample-review-preview";
+import { getSampleReviewPreview } from "@/features/marketing/server/get-sample-review";
+import { SAMPLE_PR_URL } from "@/lib/sample-pr";
 
 export default async function Home() {
   const session = await getServerSession();
   const signedIn = Boolean(session?.user);
+  const sample = await getSampleReviewPreview();
 
   return (
     <div className="relative flex min-h-svh flex-1 flex-col overflow-hidden">
       <header className="flex items-center justify-between px-6 py-4">
         <Link href="/" prefetch className="flex items-center gap-2">
           <span className="accent-gradient size-8 rounded-lg" />
-          <span className="text-sm font-semibold tracking-tight">Sudan Review</span>
+          <span className="text-sm font-semibold tracking-tight">FlowAI</span>
         </Link>
         <div className="flex items-center gap-2">
           <ModeToggle />
@@ -35,18 +39,20 @@ export default async function Home() {
       </header>
 
       <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col items-start justify-center gap-10 px-6 pb-24 pt-8">
-        <p className="rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-          AI reviews that ship with the PR
-        </p>
         <div className="max-w-2xl space-y-5">
+          <p className="text-xs font-medium uppercase tracking-wide text-primary">
+            Try it here first
+          </p>
           <h1 className="font-heading text-5xl leading-[1.1] text-foreground sm:text-6xl">
-            Code review that reads the diff, not the hype.
+            AI PR reviews you can judge without signing in.
           </h1>
           <p className="max-w-lg text-base leading-7 text-muted-foreground">
-            Connect GitHub, index a repo, and get grounded comments on every
-            pull request — without the generic tutorial chrome.
+            A recruiter should be able to see the output in 30 seconds. The
+            sample below is that path. Sign in only if you want the GitHub App
+            on your own repos.
           </p>
         </div>
+        <SampleReviewPreview sample={sample} />
         <div className="flex flex-wrap gap-3">
           {signedIn ? (
             <Button
@@ -65,12 +71,33 @@ export default async function Home() {
               Sign in with GitHub
             </Button>
           )}
+          {SAMPLE_PR_URL ? (
+            <Button
+              size="lg"
+              variant="outline"
+              nativeButton={false}
+              render={
+                <a href={SAMPLE_PR_URL} target="_blank" rel="noreferrer" />
+              }
+            >
+              Open sample on GitHub
+            </Button>
+          ) : null}
         </div>
         <div className="grid w-full gap-3 sm:grid-cols-3">
           {[
-            { title: "Context-aware", body: "Pinecone + repo sync so reviews cite nearby code." },
-            { title: "Queued, not blocked", body: "Inngest runs reviews in the background after webhooks." },
-            { title: "Usage-aware", body: "Free monthly cap, Pro unlimited — visible in Settings." },
+            {
+              title: "1. Connect",
+              body: "Install the GitHub App on the repos you want reviewed.",
+            },
+            {
+              title: "2. Optional sync",
+              body: "Index a repo so comments can cite nearby code, not just the diff.",
+            },
+            {
+              title: "3. Open a PR",
+              body: "Reviews run in the background and post on the PR (inline + summary).",
+            },
           ].map((item) => (
             <div key={item.title} className="glass-panel rounded-xl p-4">
               <p className="text-sm font-medium">{item.title}</p>

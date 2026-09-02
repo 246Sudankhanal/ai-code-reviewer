@@ -43,7 +43,13 @@ async function handlePullRequestEvent(event: PullRequestWebhookPayload) {
     return Response.json({ received: true });
   }
 
-  const pullRequest = await savePullRequest(event);
+  const pullRequestSave = await savePullRequest(event);
+
+  if (pullRequestSave.skipReview) {
+    return Response.json({ received: true, skipped: "already-reviewed-this-commit" });
+  }
+
+  const pullRequest = pullRequestSave.pullRequest;
   const userId = await getUserIdByInstallationId(event.installation.id);
 
   if (userId) {
@@ -84,6 +90,13 @@ export async function handleGithubWebhook(request: Request) {
   const signature = request.headers.get("x-hub-signature-256");
   const eventName = request.headers.get("x-github-event");
 
+  let parsed: Record<string, unknown> = {};
+  try {
+    parsed = JSON.parse(payload) as Record<string, unknown>;
+  } catch {
+    return Response.json({ error: "Invalid payload" }, { status: 400 });
+  }
+
   const isValid = await isSignatureValid(payload, signature);
 
   if (!isValid) {
@@ -91,12 +104,12 @@ export async function handleGithubWebhook(request: Request) {
   }
 
   if (eventName === "push") {
-    return handlePushEvent(JSON.parse(payload) as PushWebhookPayload);
+    return handlePushEvent(parsed as unknown as PushWebhookPayload);
   }
 
   if (eventName !== "pull_request") {
     return Response.json({ received: true });
   }
 
-  return handlePullRequestEvent(JSON.parse(payload) as PullRequestWebhookPayload);
+  return handlePullRequestEvent(parsed as unknown as PullRequestWebhookPayload);
 }
