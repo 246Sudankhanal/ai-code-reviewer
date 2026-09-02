@@ -155,7 +155,7 @@ export function GithubConnectCard({
                             <div>
                                 <CardTitle>GitHub App</CardTitle>
                                 <CardDescription>
-                                    Install FlowAI on your GitHub account or organization.
+                                    Install AI Code Reviewer on your GitHub account or organization.
                                 </CardDescription>
                             </div>
                         </div>

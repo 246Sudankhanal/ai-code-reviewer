@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI Code Reviewer
 
-## Getting Started
+AI pull request reviews on GitHub. Install the app, open a PR, get an inline review plus a summary — with a second model judging whether the comment is worth posting.
 
-First, run the development server:
+The homepage shows a live sample review so you can judge the output without signing in.
+
+## What it does
+
+1. **Connect** — GitHub OAuth login, then install the GitHub App on the repos you want reviewed.
+2. **Optional sync** — index a repo in Pinecone so comments can cite nearby code, not only the diff.
+3. **Review** — Inngest runs the job in the background: generate review → judge → post on the PR.
+4. **Dashboard** — connected repos, PR status, plan / Stripe billing.
+
+## Stack
+
+| Layer | Choice |
+| --- | --- |
+| App | Next.js, TypeScript |
+| Auth | better-auth (GitHub) |
+| Database | Prisma + Neon (Postgres) |
+| Jobs | Inngest |
+| AI | OpenRouter (reviewer + judge models) |
+| Embeddings | Pinecone |
+| Billing | Stripe Checkout |
+| GitHub | GitHub App webhooks + Octokit |
+| Run | Docker / Compose |
+
+## Local development
 
 ```bash
+cp .env.example .env
+# fill keys — see .env.example
+npm ci
+npx prisma migrate deploy
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+In another terminal, for background jobs:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run inngest:dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open [http://localhost:3000](http://localhost:3000). For GitHub webhooks on a laptop, tunnel with ngrok (or similar) and point the App webhook at `/api/github/webhook`.
 
-## Learn More
+## Docker
 
-To learn more about Next.js, take a look at the following resources:
+Needs a filled `.env` (Neon `DATABASE_URL` and the rest). Compose does not run Postgres — use Neon.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+docker compose up --build
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The container runs `prisma migrate deploy`, then starts the app on port 3000.
 
-## Deploy on Vercel
+## GitHub App endpoints
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+After you have a public HTTPS URL, set these on the GitHub App (and OAuth app):
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Setting | Path |
+| --- | --- |
+| OAuth callback | `/api/auth/callback/github` |
+| App setup URL | `/api/github/callback` |
+| Webhook | `/api/github/webhook` |
+| Stripe webhook | `/api/stripe/webhook` |
+| Inngest | `/api/inngest` |
+
+`BETTER_AUTH_URL` must be that same public origin (no trailing slash).
+
+## CI
+
+Push to `main` / `master` runs lint, Prisma generate, Next build, and a Docker image build. Runtime secrets stay on the host that runs Compose — they are not required as GitHub Actions secrets for CI.

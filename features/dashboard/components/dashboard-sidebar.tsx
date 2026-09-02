@@ -31,7 +31,7 @@ export function DashboardSidebar({ user, plan = "Pro" }: DashboardSidebarProps) 
           <SidebarMenuItem>
             <SidebarMenuButton
               size="lg"
-              tooltip="FlowAI"
+              tooltip="AI Code Reviewer"
               render={
                 <Link href={DASHBOARD_ROUTES.overview} prefetch>
                   <span className="flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-primary/10">
@@ -44,7 +44,7 @@ export function DashboardSidebar({ user, plan = "Pro" }: DashboardSidebarProps) 
                     />
                   </span>
                   <span className="grid flex-1 text-left leading-tight group-data-[collapsible=icon]:hidden">
-                    <span className="truncate font-medium">FlowAI</span>
+                    <span className="truncate font-medium">AI Code Reviewer</span>
                    
                   </span>
                 </Link>

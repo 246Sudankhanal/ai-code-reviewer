@@ -2,7 +2,7 @@ services:
   app:
     build:
       context: .
-    image: flowai:local
+    image: ai-code-reviewer:local
     restart: unless-stopped
     ports:
       - "3000:3000"

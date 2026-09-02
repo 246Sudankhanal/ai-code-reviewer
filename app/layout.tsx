@@ -24,11 +24,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "FlowAI",
-    template: "%s · FlowAI",
+    default: "AI Code Reviewer",
+    template: "%s · AI Code Reviewer",
   },
   description:
-    "AI comments on GitHub pull requests after you connect the FlowAI GitHub App.",
+    "AI comments on GitHub pull requests after you connect the AI Code Reviewer GitHub App.",
 };
 
 export default function RootLayout({

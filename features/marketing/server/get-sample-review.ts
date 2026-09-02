@@ -9,7 +9,7 @@ async function githubJson<T>(url: string): Promise<T | null> {
   const response = await fetch(url, {
     headers: {
       Accept: "application/vnd.github+json",
-      "User-Agent": "flowai",
+      "User-Agent": "ai-code-reviewer",
       "X-GitHub-Api-Version": "2022-11-28",
     },
     next: { revalidate: 300 },

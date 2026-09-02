@@ -1,6 +1,6 @@
 import { Inngest } from "inngest";
 
 export const inngest = new Inngest({
-  id: "flowai",
+  id: "ai-code-reviewer",
   isDev: process.env.NODE_ENV !== "production",
 });

@@ -19,7 +19,7 @@ import { GithubSignInForm } from '@/features/auth/components/github-sign-in-form
 
 export const metadata: Metadata = {
   title: "Sign in",
-  description: "Sign in to FlowAI with GitHub.",
+  description: "Sign in to AI Code Reviewer with GitHub.",
 };
 
 type SignInPageProps = {
@@ -42,7 +42,7 @@ const SignInPage = async({searchParams}:SignInPageProps) => {
             className="text-foreground"
           />
         </div>
-        <CardTitle className="text-base">FlowAI</CardTitle>
+        <CardTitle className="text-base">AI Code Reviewer</CardTitle>
         <CardDescription>
           Sign in with GitHub to connect repos and run PR reviews.
         </CardDescription>

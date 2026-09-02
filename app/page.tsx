@@ -19,7 +19,7 @@ export default async function Home() {
       <header className="flex items-center justify-between px-6 py-4">
         <Link href="/" prefetch className="flex items-center gap-2">
           <span className="accent-gradient size-8 rounded-lg" />
-          <span className="text-sm font-semibold tracking-tight">FlowAI</span>
+          <span className="text-sm font-semibold tracking-tight">AI Code Reviewer</span>
         </Link>
         <div className="flex items-center gap-2">
           <ModeToggle />
