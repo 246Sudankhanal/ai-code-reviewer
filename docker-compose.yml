@@ -2,7 +2,7 @@ services:
   app:
     build:
       context: .
-    image: ai-code-reviewer:local
+    image: ghcr.io/246sudankhanal/ai-code-reviewer:${IMAGE_TAG:-latest}
     restart: unless-stopped
     ports:
       - "3000:3000"

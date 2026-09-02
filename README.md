@@ -67,6 +67,23 @@ After you have a public HTTPS URL, set these on the GitHub App (and OAuth app):
 
 `BETTER_AUTH_URL` must be that same public origin (no trailing slash).
 
-## CI
+## CI / CD
 
-Push to `main` / `master` runs lint, Prisma generate, Next build, and a Docker image build. Runtime secrets stay on the host that runs Compose — they are not required as GitHub Actions secrets for CI.
+Push to `main` does **not** clone the app onto the server every time.
+
+1. **CI** — GitHub Actions lints and builds (`workflow.yaml`).
+2. **Image** — Actions builds the Docker image and stores it on GitHub Packages / GHCR (`docker.yml`).
+3. **CD** — if you have set deploy secrets, Actions SSHs to the VPS, `docker compose pull`, and restarts the container.
+
+Clone the repo **once** on the server so it has `docker-compose.yml` and `.env`. After that, each push only downloads the new image.
+
+Repo → Settings → Secrets and variables → Actions:
+
+| Secret | What |
+| --- | --- |
+| `DEPLOY_HOST` | VPS IP or hostname |
+| `DEPLOY_USER` | SSH user |
+| `DEPLOY_SSH_KEY` | Private key for that user |
+| `DEPLOY_PATH` | Folder with `docker-compose.yml` and `.env` |
+
+Until `DEPLOY_HOST` is set, the deploy job is skipped. App keys stay in `.env` on the server, not in Actions.
