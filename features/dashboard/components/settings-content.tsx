@@ -8,9 +8,6 @@
 "use client";
 
 import { format } from "date-fns";
-import { useState } from "react";
-
-
 import { UpgradeButton } from "@/features/billing/components/upgrade-button";
 
 import type { UserSubscription } from "@/features/dashboard/lib/types";
@@ -251,7 +248,6 @@ export function SettingsContent({
   subscription,
   usage, defaultTab = "profile"
 }: SettingsContentProps) {
-  const [activeTab, setActiveTab] = useState(defaultTab);
   return (
     <div className="flex flex-1 flex-col p-6">
       <Tabs defaultValue="profile" className="w-full max-w-2xl">

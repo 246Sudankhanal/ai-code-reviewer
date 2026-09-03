@@ -4,7 +4,7 @@ import { getRepoSyncStatuses } from "@/features/repo-sync/server/repo-sync";
 import { NextResponse } from "next/server";
 import {prisma} from '@/lib/db'
 import { getGithubApp } from "@/features/github/utils/github-app";
-import { mapRepo } from "@/features/github/server/repos";
+import { mapRepo, type GithubRepo, type InstallationReposPage } from "@/features/github/server/repos";
 const REPOS_PER_PAGE = 30;
 export async function GET(request: Request) {
     const session = await getServerSession();
@@ -23,13 +23,13 @@ export async function GET(request: Request) {
     const page = Math.max(1, Number(searchParams.get("page") ?? "1"));
     const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000);
 
-    let data;
+    let data: InstallationReposPage;
     const cached = await prisma.repoCache.findUnique({
         where: { installationId_page: { installationId, page } },
     });
 
     if (cached && cached.updatedAt > tenMinutesAgo) {
-        data = JSON.parse(cached.data);
+        data = JSON.parse(cached.data) as InstallationReposPage;
     } else {
         // 2. If no valid cache, fetch live from GitHub
         const app = getGithubApp();
@@ -57,10 +57,10 @@ export async function GET(request: Request) {
     }
 
     // 4. Fetch local database sync statuses concurrently or sequentially
-    const repoFullNames = data.repos.map((repo: any) => repo.fullName);
+    const repoFullNames = data.repos.map((repo: GithubRepo) => repo.fullName);
     const resolvedSyncStatuses = await getRepoSyncStatuses(repoFullNames);
 
-    const repos = data.repos.map((repo: any) => ({
+    const repos = data.repos.map((repo: GithubRepo) => ({
         ...repo,
         syncStatus: resolvedSyncStatuses[repo.fullName] ?? null,
     }));

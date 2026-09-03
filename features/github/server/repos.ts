@@ -72,7 +72,7 @@ const REPOS_PER_PAGE = 100;
 export async function getInstallationReposPage(
     installationId: number,
     page = 1
-): Promise<any> {
+): Promise<InstallationReposPage> {
     const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000);
     const app = getGithubApp();
     const cached = await prisma.repoCache.findUnique({
@@ -86,7 +86,7 @@ export async function getInstallationReposPage(
 
     if (cached && cached.updatedAt > tenMinutesAgo) {
         // Return instantly from Prisma in ~5ms instead of waiting 6s for GitHub!
-        return JSON.parse(cached.data);
+        return JSON.parse(cached.data) as InstallationReposPage;
     }
     // `getInstallationOctokit` exchanges the App JWT for an installation access token.
     const octokit = await app.getInstallationOctokit(installationId);
