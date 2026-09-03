@@ -4,12 +4,29 @@ services:
       context: .
     image: ghcr.io/246sudankhanal/ai-code-reviewer:${IMAGE_TAG:-latest}
     restart: unless-stopped
-    ports:
-      - "3000:3000"
+    expose:
+      - "3000"
     env_file:
       - path: .env
         required: false
     environment:
       NODE_ENV: production
       PORT: 3000
-      RUN_MIGRATIONS: "true"
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
+
+volumes:
+  caddy_data:
+  caddy_config:
