@@ -40,7 +40,7 @@ export function PullRequestList({
   const { data, isPending, isError } = useQuery({
     ...pullRequestsQuery,
     initialData,
-    initialDataUpdatedAt: Date.now(),
+    initialDataUpdatedAt: 0,
   });
 
   const pullRequests = data ?? initialData;
