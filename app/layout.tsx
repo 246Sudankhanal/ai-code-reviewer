@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     template: "%s · AI Code Reviewer",
   },
   description:
-    "AI comments on GitHub pull requests after you connect the AI Code Reviewer GitHub App.",
+    "AI pull request reviews on GitHub — inline comments, a summary, and a judge step before posting.",
 };
 
 export default function RootLayout({

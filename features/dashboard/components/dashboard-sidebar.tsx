@@ -45,7 +45,9 @@ export function DashboardSidebar({ user, plan = "Pro" }: DashboardSidebarProps) 
                   </span>
                   <span className="grid flex-1 text-left leading-tight group-data-[collapsible=icon]:hidden">
                     <span className="truncate font-medium">AI Code Reviewer</span>
-                   
+                    <span className="truncate text-[11px] text-muted-foreground">
+                      GitHub PR reviews
+                    </span>
                   </span>
                 </Link>
               }

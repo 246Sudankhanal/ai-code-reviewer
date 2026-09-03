@@ -22,9 +22,9 @@ function DiffLine({
 }) {
   const tone =
     type === "add"
-      ? "bg-emerald-500/12 text-emerald-800 dark:text-emerald-300"
+      ? "bg-primary/12 text-primary"
       : type === "del"
-        ? "bg-rose-500/12 text-rose-800 dark:text-rose-300"
+        ? "bg-secondary text-muted-foreground"
         : "text-muted-foreground";
   const mark = type === "add" ? "+" : type === "del" ? "−" : " ";
 
@@ -111,16 +111,14 @@ export function SampleReviewPreview({ sample }: { sample: Sample }) {
     <section className="w-full space-y-4">
       <div className="space-y-2">
         <p className="text-xs font-medium uppercase tracking-wide text-primary">
-          Free check · no GitHub sign-in
+          Sample output
         </p>
         <h2 className="font-heading text-2xl tracking-tight">
-          Inspect a review the way a reviewer would.
+          Files, inline notes, and a summary.
         </h2>
         <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-          I left a sample on the homepage on purpose: you should not need an
-          account to judge whether the bot is useful. Toggle Files vs
-          Conversation, then open GitHub if you want the same comments in the
-          real UI.
+          Switch between Files and Conversation to see what the bot posts on a
+          pull request. Sign in only when you want this on your own repos.
         </p>
       </div>
 
@@ -159,7 +157,7 @@ export function SampleReviewPreview({ sample }: { sample: Sample }) {
 
       {active.githubUrl || sample.githubUrl ? (
         <p className="text-xs text-muted-foreground">
-          Proof it is not a screenshot:{" "}
+          Same review on GitHub:{" "}
           <a
             href={active.githubUrl ?? sample.githubUrl ?? "#"}
             target="_blank"

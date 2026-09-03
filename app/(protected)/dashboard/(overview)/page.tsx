@@ -16,7 +16,7 @@ export default async function DashboardPage() {
     <>
       <DashboardHeader
         title="Overview"
-        description="Workspace health, syncs, and recent reviews."
+        description="Repositories, syncs, and recent pull request reviews."
       />
       <OverviewContent overview={overview} />
     </>

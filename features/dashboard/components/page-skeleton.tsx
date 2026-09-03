@@ -50,7 +50,7 @@ export function DashboardOverviewSkeleton() {
     <>
       <DashboardHeader
         title="Overview"
-        description="Workspace health, syncs, and recent reviews."
+        description="Repositories, syncs, and recent pull request reviews."
       />
       <div className="grid gap-4 p-6 sm:grid-cols-2 xl:grid-cols-4">
         {Array.from({ length: 4 }).map((_, index) => (

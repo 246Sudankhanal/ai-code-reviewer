@@ -1,4 +1,4 @@
-/** Public GitHub PR URL for recruiters. Empty until you paste a real PR. */
+/** Optional public GitHub PR URL shown on the homepage. */
 export const SAMPLE_PR_URL = process.env.NEXT_PUBLIC_SAMPLE_PR_URL?.trim() ?? "";
 
 export function parseGithubPullUrl(url: string): {

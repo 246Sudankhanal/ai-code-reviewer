@@ -41,15 +41,14 @@ export default async function Home() {
       <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col items-start justify-center gap-10 px-6 pb-24 pt-8">
         <div className="max-w-2xl space-y-5">
           <p className="text-xs font-medium uppercase tracking-wide text-primary">
-            Try it here first
+            Live demo
           </p>
           <h1 className="font-heading text-5xl leading-[1.1] text-foreground sm:text-6xl">
-            AI PR reviews you can judge without signing in.
+            AI reviews on GitHub pull requests.
           </h1>
           <p className="max-w-lg text-base leading-7 text-muted-foreground">
-            A recruiter should be able to see the output in 30 seconds. The
-            sample below is that path. Sign in only if you want the GitHub App
-            on your own repos.
+            Preview a sample review below — no account required. Sign in with
+            GitHub to install the app on your repositories.
           </p>
         </div>
         <SampleReviewPreview sample={sample} />

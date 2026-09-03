@@ -11,11 +11,11 @@ type DashboardHeaderProps = {
 
 export function DashboardHeader({ title, description }: DashboardHeaderProps) {
   return (
-    <header className="sticky top-0 z-10 flex h-14 shrink-0 items-center gap-2 border-b border-border/80 bg-background/70 px-4 backdrop-blur-xl">
+    <header className="sticky top-0 z-10 flex h-14 shrink-0 items-center gap-2 border-b border-border/80 bg-background/85 px-4 backdrop-blur-xl">
       <SidebarTrigger className="-ml-1" />
       <Separator orientation="vertical" className="mr-2 h-4" />
       <div className="flex min-w-0 flex-col">
-        <h1 className="truncate text-sm font-medium">{title}</h1>
+        <h1 className="truncate text-sm font-semibold tracking-tight">{title}</h1>
         {description ? (
           <p className="truncate text-xs text-muted-foreground">{description}</p>
         ) : null}

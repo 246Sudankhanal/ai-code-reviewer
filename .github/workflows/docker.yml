@@ -12,10 +12,23 @@ permissions:
 
 jobs:
   publish:
-    name: Build and push GHCR
+    name: Migrate, build, and push GHCR
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Apply Prisma migrations to Neon
+        run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Image metadata
         id: meta
