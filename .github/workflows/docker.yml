@@ -55,3 +55,35 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  deploy:
+    name: Pull image on VPS
+    needs: publish
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.event_name == 'workflow_dispatch'
+    steps:
+      - name: SSH, pull GHCR, compose up
+        uses: appleboy/ssh-action@v1.2.2
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GHCR_USER: ${{ github.repository_owner }}
+          REPO: ${{ github.repository }}
+          BRANCH: ${{ github.ref_name }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          envs: GHCR_TOKEN,GHCR_USER,REPO,BRANCH,DEPLOY_PATH
+          command_timeout: 10m
+          script_stop: true
+          script: |
+            set -euo pipefail
+            APP_DIR="${DEPLOY_PATH:-/home/ubuntu/ai-code-reviewer}"
+            cd "$APP_DIR"
+            git fetch --depth=1 "https://x-access-token:${GHCR_TOKEN}@github.com/${REPO}.git" "$BRANCH"
+            git reset --hard FETCH_HEAD
+            echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
+            docker compose pull
+            docker compose up -d
+            docker compose ps
