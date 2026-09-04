@@ -142,14 +142,14 @@ export function SampleReviewPreview({ sample }: { sample: Sample }) {
       <ReviewPane key={active.id} sample={active} />
 
       <ul className="grid gap-2 text-xs leading-5 text-muted-foreground sm:grid-cols-3">
-        <li className="glass-panel rounded-lg px-3 py-2">
+        <li className="rounded-lg border border-border bg-card px-3 py-2">
           Inline comments are filtered to added lines so GitHub does not reject
           the review.
         </li>
-        <li className="glass-panel rounded-lg px-3 py-2">
+        <li className="rounded-lg border border-border bg-card px-3 py-2">
           Diff is capped at 100k characters (not tokens). Lockfiles are skipped.
         </li>
-        <li className="glass-panel rounded-lg px-3 py-2">
+        <li className="rounded-lg border border-border bg-card px-3 py-2">
           A second model judges the review. If the judge is down, the original
           still posts.
         </li>

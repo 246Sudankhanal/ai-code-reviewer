@@ -13,6 +13,7 @@ import {
 } from "@/features/dashboard/lib/status-style";
 import { getGithubInstallUrl } from "@/features/github/utils/github-app";
 
+import { APP_NAME } from "@/lib/brand";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -155,7 +156,7 @@ export function GithubConnectCard({
                             <div>
                                 <CardTitle>GitHub App</CardTitle>
                                 <CardDescription>
-                                    Install AI Code Reviewer on your GitHub account or organization.
+                                    {`Install ${APP_NAME} on your GitHub account or organization.`}
                                 </CardDescription>
                             </div>
                         </div>

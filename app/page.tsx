@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { SampleReviewPreview } from "@/features/marketing/components/sample-review-preview";
 import { getSampleReviewPreview } from "@/features/marketing/server/get-sample-review";
 import { SAMPLE_PR_URL } from "@/lib/sample-pr";
+import { BrandLogo } from "@/components/brand-logo";
+import { APP_NAME } from "@/lib/brand";
 
 export default async function Home() {
   const session = await getServerSession();
@@ -18,8 +20,8 @@ export default async function Home() {
     <div className="relative flex min-h-svh flex-1 flex-col overflow-hidden">
       <header className="flex items-center justify-between px-6 py-4">
         <Link href="/" prefetch className="flex items-center gap-2">
-          <span className="accent-gradient size-8 rounded-lg" />
-          <span className="text-sm font-semibold tracking-tight">AI Code Reviewer</span>
+          <BrandLogo size={32} priority className="size-8 rounded-lg" />
+          <span className="text-sm font-semibold tracking-tight">{APP_NAME}</span>
         </Link>
         <div className="flex items-center gap-2">
           <ModeToggle />
@@ -98,7 +100,10 @@ export default async function Home() {
               body: "Reviews run in the background and post on the PR (inline + summary).",
             },
           ].map((item) => (
-            <div key={item.title} className="glass-panel rounded-xl p-4">
+            <div
+              key={item.title}
+              className="rounded-xl border border-border bg-card p-4"
+            >
               <p className="text-sm font-medium">{item.title}</p>
               <p className="mt-1 text-xs leading-5 text-muted-foreground">
                 {item.body}

@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import { BrandLogo } from "@/components/brand-logo";
 import { useFormStatus } from "react-dom";
 import { signInWithGithub } from "../actions";
 
@@ -20,7 +21,12 @@ function SubmitButton() {
 
   if (pending) {
     buttonLabel = "Redirecting to GitHub…";
-    buttonIcon = <Spinner className="size-4" />;
+    buttonIcon = (
+      <span className="flex items-center gap-2">
+        <BrandLogo size={16} className="size-4 rounded-sm" />
+        <Spinner className="size-4" />
+      </span>
+    );
   }
 
   return (

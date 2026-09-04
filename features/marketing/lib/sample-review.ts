@@ -147,7 +147,7 @@ export function fromGithubPayload(input: {
     githubUrl: input.htmlUrl,
     summary: clip(
       summaryComment?.body ??
-        "Open the PR on GitHub to read the full AI Code Reviewer summary.",
+        "Open the PR on GitHub to read the full aiprreviewer summary.",
       420
     ),
     diffLines: input.firstPatch

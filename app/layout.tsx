@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Plus_Jakarta_Sans, Instrument_Serif } from "next/font/google";
 import "./globals.css";
+import { APP_DOMAIN, APP_NAME } from "@/lib/brand";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { QueryProvider } from "@/components/providers/query-provider";
@@ -23,12 +24,23 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(`https://${APP_DOMAIN}`),
   title: {
-    default: "AI Code Reviewer",
-    template: "%s · AI Code Reviewer",
+    default: APP_NAME,
+    template: `%s · ${APP_NAME}`,
   },
   description:
     "AI pull request reviews on GitHub — inline comments, a summary, and a judge step before posting.",
+  applicationName: APP_NAME,
+  icons: {
+    icon: [{ url: "/logo.png", type: "image/png" }],
+    apple: [{ url: "/logo.png" }],
+  },
+  openGraph: {
+    title: APP_NAME,
+    siteName: APP_NAME,
+    images: [{ url: "/logo.png", width: 512, height: 512, alt: APP_NAME }],
+  },
 };
 
 export default function RootLayout({

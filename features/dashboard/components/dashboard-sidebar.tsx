@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 
@@ -17,6 +16,8 @@ import {
   SidebarSeparator,
 } from "@/components/ui/sidebar";
 import { UserMenuUser } from "@/features/auth/components/user-menu";
+import { BrandLogo } from "@/components/brand-logo";
+import { APP_DOMAIN, APP_NAME } from "@/lib/brand";
 
 type DashboardSidebarProps = {
   user: UserMenuUser;
@@ -31,22 +32,16 @@ export function DashboardSidebar({ user, plan = "Pro" }: DashboardSidebarProps) 
           <SidebarMenuItem>
             <SidebarMenuButton
               size="lg"
-              tooltip="AI Code Reviewer"
+              tooltip={APP_NAME}
               render={
                 <Link href={DASHBOARD_ROUTES.overview} prefetch>
                   <span className="flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-primary/10">
-                    <Image
-                      src="/logo2.svg"
-                      alt=""
-                      width={62}
-                      height={62}
-                      className="object-contain"
-                    />
+                    <BrandLogo size={32} className="size-8" />
                   </span>
                   <span className="grid flex-1 text-left leading-tight group-data-[collapsible=icon]:hidden">
-                    <span className="truncate font-medium">AI Code Reviewer</span>
+                    <span className="truncate font-medium">{APP_NAME}</span>
                     <span className="truncate text-[11px] text-muted-foreground">
-                      GitHub PR reviews
+                      {APP_DOMAIN}
                     </span>
                   </span>
                 </Link>

@@ -118,9 +118,8 @@
 }
 
 @utility glass-panel {
-  background-color: color-mix(in oklch, var(--card) 92%, transparent);
-  backdrop-filter: blur(12px) saturate(1.05);
-  border: 1px solid color-mix(in oklch, var(--border) 90%, transparent);
+  background-color: var(--card);
+  border: 1px solid var(--border);
   box-shadow:
     0 1px 0 oklch(1 0 0 / 5%) inset,
     0 12px 32px -28px oklch(0.15 0.02 255 / 0.5);
