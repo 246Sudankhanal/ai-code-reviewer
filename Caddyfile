@@ -1,3 +1,7 @@
-aiprreviewer.com, www.aiprreviewer.com {
+www.aiprreviewer.com {
+	redir https://aiprreviewer.com{uri} permanent
+}
+
+aiprreviewer.com {
 	reverse_proxy app:3000
 }
