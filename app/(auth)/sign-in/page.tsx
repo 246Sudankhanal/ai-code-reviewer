@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/field";
 import { GithubSignInForm } from '@/features/auth/components/github-sign-in-form';
 import { APP_NAME } from "@/lib/brand";
+import Link from "next/link";
 
 
 export const metadata: Metadata = {
@@ -49,6 +50,19 @@ const SignInPage = async({searchParams}:SignInPageProps) => {
               <FieldDescription className="text-center">
                 We only request the permissions needed to identify your
                 account. You can revoke access anytime from GitHub settings.
+              </FieldDescription>
+              <FieldDescription className="text-center">
+                <Link href="/privacy" className="hover:underline">
+                  Privacy
+                </Link>
+                {" · "}
+                <Link href="/terms" className="hover:underline">
+                  Terms
+                </Link>
+                {" · "}
+                <Link href="/contact" className="hover:underline">
+                  Contact
+                </Link>
               </FieldDescription>
             </Field>
           </FieldGroup>

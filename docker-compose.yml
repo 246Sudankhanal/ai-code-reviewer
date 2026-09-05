@@ -15,7 +15,11 @@ services:
       PORT: 3000
 
   caddy:
-    image: caddy:2-alpine
+    build:
+      context: .
+      dockerfile: Dockerfile.caddy
+    image: ghcr.io/246sudankhanal/ai-code-reviewer-caddy:${IMAGE_TAG:-latest}
+    pull_policy: always
     restart: unless-stopped
     ports:
       - "80:80"

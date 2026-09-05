@@ -1,15 +1,18 @@
 import Link from "next/link";
-import { ModeToggle } from "@/components/ui/mode-toggle";
-import { UserMenuWithSession } from "@/features/auth/components/user-menu";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { PublicShell } from "@/components/marketing/public-shell";
+import { SampleReviewPreview } from "@/features/marketing/components/sample-review-preview";
+import { getSampleReviewPreview } from "@/features/marketing/server/get-sample-review";
 import { getServerSession } from "@/features/auth/actions";
 import { SIGN_IN_PATH } from "@/features/auth/utils";
 import { DASHBOARD_ROUTES } from "@/features/dashboard/lib/routes";
-import { Button } from "@/components/ui/button";
-import { SampleReviewPreview } from "@/features/marketing/components/sample-review-preview";
-import { getSampleReviewPreview } from "@/features/marketing/server/get-sample-review";
 import { SAMPLE_PR_URL } from "@/lib/sample-pr";
-import { BrandLogo } from "@/components/brand-logo";
-import { APP_NAME } from "@/lib/brand";
+import {
+  AUTHOR_NAME,
+  GITHUB_REPO_URL,
+  PRODUCT_TITLE,
+} from "@/lib/brand";
 
 export default async function Home() {
   const session = await getServerSession();
@@ -17,40 +20,37 @@ export default async function Home() {
   const sample = await getSampleReviewPreview();
 
   return (
-    <div className="relative flex min-h-svh flex-1 flex-col overflow-hidden">
-      <header className="flex items-center justify-between px-6 py-4">
-        <Link href="/" prefetch className="flex items-center gap-2">
-          <BrandLogo size={32} priority className="size-8 rounded-lg" />
-          <span className="text-sm font-semibold tracking-tight">{APP_NAME}</span>
-        </Link>
-        <div className="flex items-center gap-2">
-          <ModeToggle />
-          {signedIn ? (
-            <UserMenuWithSession variant="compact" />
-          ) : (
-            <Button
-              size="sm"
-              variant="ghost"
-              nativeButton={false}
-              render={<Link href={SIGN_IN_PATH} prefetch />}
-            >
-              Sign in
-            </Button>
-          )}
-        </div>
-      </header>
-
-      <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col items-start justify-center gap-10 px-6 pb-24 pt-8">
+    <PublicShell>
+      <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col items-start justify-center gap-10 px-6 pb-16 pt-8">
         <div className="max-w-2xl space-y-5">
-          <p className="text-xs font-medium uppercase tracking-wide text-primary">
-            Live demo
-          </p>
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge variant="outline" className="h-6 px-2.5 text-[11px]">
+              Open source
+            </Badge>
+            <Badge variant="secondary" className="h-6 px-2.5 text-[11px]">
+              Portfolio project
+            </Badge>
+          </div>
           <h1 className="font-heading text-5xl leading-[1.1] text-foreground sm:text-6xl">
-            AI reviews on GitHub pull requests.
+            {PRODUCT_TITLE}
           </h1>
           <p className="max-w-lg text-base leading-7 text-muted-foreground">
-            Preview a sample review below — no account required. Sign in with
-            GitHub to install the app on your repositories.
+            Automated GitHub pull request reviews: inline comments on added
+            lines, a summary on the conversation, and a second-model judge
+            before anything is posted. Built by {AUTHOR_NAME} so teams catch
+            issues before merge — without replacing human review.
+          </p>
+          <p className="text-xs leading-5 text-muted-foreground">
+            Source on{" "}
+            <a
+              href={GITHUB_REPO_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="font-medium text-foreground underline-offset-4 hover:underline"
+            >
+              GitHub
+            </a>
+            . Preview a sample below with no account.
           </p>
         </div>
         <SampleReviewPreview sample={sample} />
@@ -83,7 +83,18 @@ export default async function Home() {
             >
               Open sample on GitHub
             </Button>
-          ) : null}
+          ) : (
+            <Button
+              size="lg"
+              variant="outline"
+              nativeButton={false}
+              render={
+                <a href={GITHUB_REPO_URL} target="_blank" rel="noreferrer" />
+              }
+            >
+              View source
+            </Button>
+          )}
         </div>
         <div className="grid w-full gap-3 sm:grid-cols-3">
           {[
@@ -112,6 +123,6 @@ export default async function Home() {
           ))}
         </div>
       </main>
-    </div>
+    </PublicShell>
   );
 }

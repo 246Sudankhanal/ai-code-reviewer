@@ -49,5 +49,8 @@ jobs:
           docker compose config
 
       # Smoke test only — does not push. GHCR publish is .github/workflows/docker.yml
-      - name: Build image
+      - name: Build app image
         run: docker build -t ai-code-reviewer:ci .
+
+      - name: Build Caddy image
+        run: docker build -f Dockerfile.caddy -t ai-code-reviewer-caddy:ci .

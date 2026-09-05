@@ -1,7 +1,70 @@
+{
+	servers {
+		trusted_proxies static private_ranges
+	}
+}
+
 www.aiprreviewer.com {
 	redir https://aiprreviewer.com{uri} permanent
 }
 
 aiprreviewer.com {
-	reverse_proxy app:3000
+	encode gzip
+	request_body {
+		max_size 10MB
+	}
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		X-Frame-Options DENY
+	}
+
+	# GitHub/Stripe/Inngest + ACME must not share the public burst limit.
+	@unthrottled {
+		path /api/github/webhook /api/stripe/webhook /api/inngest* /.well-known/*
+	}
+
+	handle @unthrottled {
+		reverse_proxy app:3000 {
+			transport http {
+				dial_timeout 5s
+				read_timeout 120s
+				write_timeout 120s
+			}
+		}
+	}
+
+	handle {
+		rate_limit {
+			zone per_ip_burst {
+				key {client_ip}
+				events 30
+				window 10s
+			}
+			zone per_ip_minute {
+				key {client_ip}
+				events 120
+				window 1m
+			}
+			zone auth {
+				match {
+					path /api/auth/* /sign-in
+				}
+				key {client_ip}
+				events 20
+				window 1m
+			}
+		}
+		reverse_proxy app:3000 {
+			transport http {
+				dial_timeout 5s
+				read_timeout 60s
+				write_timeout 60s
+			}
+		}
+	}
+
+	handle_errors {
+		respond "{http.error.status_code} {http.error.status_text}"
+	}
 }

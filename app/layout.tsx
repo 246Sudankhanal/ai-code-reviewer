@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     template: `%s · ${APP_NAME}`,
   },
   description:
-    "AI pull request reviews on GitHub — inline comments, a summary, and a judge step before posting.",
+    "AI Code Reviewer (aiprreviewer) — open-source GitHub pull request reviews with inline comments and a summary. Portfolio project by Sudan Khanal.",
   applicationName: APP_NAME,
   icons: {
     icon: [{ url: "/logo.png", type: "image/png" }],
@@ -40,6 +40,9 @@ export const metadata: Metadata = {
     title: APP_NAME,
     siteName: APP_NAME,
     images: [{ url: "/logo.png", width: 512, height: 512, alt: APP_NAME }],
+  },
+  verification: {
+    google: "EcPenoVjkl4u2AaARJsKhCs8AB1VFn-BKt2WVsagSfI",
   },
 };
 
