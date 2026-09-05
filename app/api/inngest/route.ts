@@ -6,6 +6,7 @@ import { processTask } from "./function";
 import { syncRepoCodebaseFunction } from "@/features/repo-sync/server/repo-sync-function";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 export const { GET, POST, PUT } = serve({
   client: inngest,

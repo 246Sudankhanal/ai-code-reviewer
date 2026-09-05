@@ -15,7 +15,7 @@ aiprreviewer.com {
 
 	# GitHub/Stripe/Inngest + ACME: no gzip, no burst limit, longer timeouts.
 	@unthrottled {
-		path /api/github/webhook /api/stripe/webhook /api/inngest/* /.well-known/*
+		path /api/github/webhook /api/stripe/webhook /api/inngest* /.well-known*
 	}
 
 	handle @unthrottled {
@@ -23,8 +23,6 @@ aiprreviewer.com {
 			header_up Host {host}
 			header_up X-Forwarded-Host {host}
 			header_up X-Forwarded-Proto {scheme}
-			header_up Authorization {http.request.header.Authorization}
-			header_up X-Inngest-Signature {http.request.header.X-Inngest-Signature}
 			transport http {
 				dial_timeout 5s
 				read_timeout 120s
@@ -64,8 +62,6 @@ aiprreviewer.com {
 			header_up Host {host}
 			header_up X-Forwarded-Host {host}
 			header_up X-Forwarded-Proto {scheme}
-			header_up Authorization {http.request.header.Authorization}
-			header_up X-Inngest-Signature {http.request.header.X-Inngest-Signature}
 			transport http {
 				dial_timeout 5s
 				read_timeout 60s
