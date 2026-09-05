@@ -1,41 +1,37 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { getServerSession } from "../../auth/actions";
-import { getUserInstallationId } from "../../github/server/installation";
 import { DASHBOARD_ROUTES } from "../../dashboard/lib/routes";
-import { markRepoSyncFailed, triggerRepoSync } from "../server/repo-sync";
+import {
+  queueRepoSync,
+  RepoSyncRequestError,
+  stopRepoSync,
+} from "../server/queue-sync";
 
-
-export async function syncRepoCodebase(repoFullName: string, branch: string){
-    const session = await getServerSession();
-
-    if(!session){
-        redirect("/sign-in");
+export async function syncRepoCodebase(repoFullName: string, branch: string) {
+  try {
+    await queueRepoSync({ repoFullName, branch });
+  } catch (error) {
+    if (error instanceof RepoSyncRequestError && error.status === 401) {
+      redirect("/sign-in");
     }
-
-    const installationId = await getUserInstallationId(session.user.id);
-
-    if(!installationId){
-        redirect(DASHBOARD_ROUTES.github)
+    if (error instanceof RepoSyncRequestError && error.status === 403) {
+      redirect(DASHBOARD_ROUTES.github);
     }
-
-
-    await triggerRepoSync(installationId , repoFullName , branch)
+    throw error;
+  }
 }
 
 export async function cancelRepoSync(repoFullName: string) {
-    const session = await getServerSession();
-
-    if (!session) {
-        redirect("/sign-in");
+  try {
+    await stopRepoSync({ repoFullName });
+  } catch (error) {
+    if (error instanceof RepoSyncRequestError && error.status === 401) {
+      redirect("/sign-in");
     }
-
-    const installationId = await getUserInstallationId(session.user.id);
-
-    if (!installationId) {
-        redirect(DASHBOARD_ROUTES.github);
+    if (error instanceof RepoSyncRequestError && error.status === 403) {
+      redirect(DASHBOARD_ROUTES.github);
     }
-
-    await markRepoSyncFailed(repoFullName);
+    throw error;
+  }
 }

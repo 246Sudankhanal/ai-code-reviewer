@@ -2,7 +2,6 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { githubRepoKeys } from "@/features/github/lib/repos-query";
-import { cancelRepoSync, syncRepoCodebase } from "../actions/repo-sync";
 import { Button } from "@/components/ui/button";
 import { RepoSyncStatus } from "../types";
 import { toast } from "sonner";
@@ -37,6 +36,24 @@ function getButtonLabel(status: RepoSyncStatus | null, mutationPending: boolean)
   return "Sync";
 }
 
+async function postRepoSync(body: {
+  repoFullName: string;
+  branch?: string;
+  action?: "cancel";
+}) {
+  const response = await fetch("/api/repos/sync", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  const payload = (await response.json().catch(() => ({}))) as {
+    error?: string;
+  };
+  if (!response.ok) {
+    throw new Error(payload.error || `Sync failed (${response.status})`);
+  }
+}
+
 export default function SyncRepoButton({
   repoFullName,
   branch,
@@ -45,7 +62,7 @@ export default function SyncRepoButton({
   const queryClient = useQueryClient();
 
   const syncRepo = useMutation({
-    mutationFn: () => syncRepoCodebase(repoFullName, branch),
+    mutationFn: () => postRepoSync({ repoFullName, branch }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: githubRepoKeys.all });
       toast.success(`Sync queued for ${repoFullName}`);
@@ -56,7 +73,8 @@ export default function SyncRepoButton({
   });
 
   const cancelSync = useMutation({
-    mutationFn: () => cancelRepoSync(repoFullName),
+    mutationFn: () =>
+      postRepoSync({ repoFullName, action: "cancel" }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: githubRepoKeys.all });
       toast.success(`Stopped sync for ${repoFullName}`);

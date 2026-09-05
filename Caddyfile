@@ -20,6 +20,9 @@ aiprreviewer.com {
 
 	handle @unthrottled {
 		reverse_proxy app:3000 {
+			header_up Host {host}
+			header_up X-Forwarded-Host {host}
+			header_up X-Forwarded-Proto {scheme}
 			transport http {
 				dial_timeout 5s
 				read_timeout 120s
@@ -56,6 +59,9 @@ aiprreviewer.com {
 			}
 		}
 		reverse_proxy app:3000 {
+			header_up Host {host}
+			header_up X-Forwarded-Host {host}
+			header_up X-Forwarded-Proto {scheme}
 			transport http {
 				dial_timeout 5s
 				read_timeout 60s
