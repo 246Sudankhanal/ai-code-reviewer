@@ -13,6 +13,9 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3000
+      INNGEST_DEV: "0"
+      INNGEST_SERVE_ORIGIN: https://aiprreviewer.com
+      INNGEST_SERVE_PATH: /api/inngest
 
   caddy:
     build:
