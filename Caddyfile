@@ -9,17 +9,11 @@ www.aiprreviewer.com {
 }
 
 aiprreviewer.com {
-	encode gzip
 	request_body {
 		max_size 10MB
 	}
-	header {
-		X-Content-Type-Options nosniff
-		Referrer-Policy strict-origin-when-cross-origin
-		X-Frame-Options DENY
-	}
 
-	# GitHub/Stripe/Inngest + ACME must not share the public burst limit.
+	# GitHub/Stripe/Inngest + ACME: no gzip, no burst limit, longer timeouts.
 	@unthrottled {
 		path /api/github/webhook /api/stripe/webhook /api/inngest* /.well-known/*
 	}
@@ -35,6 +29,12 @@ aiprreviewer.com {
 	}
 
 	handle {
+		encode gzip
+		header {
+			X-Content-Type-Options nosniff
+			Referrer-Policy strict-origin-when-cross-origin
+			X-Frame-Options DENY
+		}
 		rate_limit {
 			zone per_ip_burst {
 				key {client_ip}

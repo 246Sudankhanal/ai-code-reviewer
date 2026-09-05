@@ -9,4 +9,7 @@ export const runtime = "nodejs";
 export const { GET, POST, PUT } = serve({
   client: inngest,
   functions: [processTask, reviewPullRequest, syncRepoCodebaseFunction],
+  serveOrigin:
+    process.env.INNGEST_SERVE_ORIGIN || process.env.BETTER_AUTH_URL,
+  servePath: "/api/inngest",
 });
