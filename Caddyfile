@@ -15,7 +15,7 @@ aiprreviewer.com {
 
 	# GitHub/Stripe/Inngest + ACME: no gzip, no burst limit, longer timeouts.
 	@unthrottled {
-		path /api/github/webhook /api/stripe/webhook /api/inngest* /.well-known/*
+		path /api/github/webhook /api/stripe/webhook /api/inngest/* /.well-known/*
 	}
 
 	handle @unthrottled {

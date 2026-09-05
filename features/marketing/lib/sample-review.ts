@@ -2,6 +2,8 @@ export type SampleInline = {
   path: string;
   line: number | null;
   body: string;
+  /** Public-facing heading. Prefer this over raw repo paths on the homepage. */
+  label?: string;
 };
 
 export type SampleReviewPreview = {
@@ -41,11 +43,13 @@ export const EXAMPLE_SAMPLE_REVIEW: SampleReviewPreview = {
     {
       path: "features/reviews/server/pr-files.ts",
       line: 42,
+      label: "Rate limit protection",
       body: "Cap retries (and sleep with backoff). Without a max, a bad token or secondary rate limit can keep this step running until Inngest times out.",
     },
     {
       path: "features/reviews/server/pr-files.ts",
       line: 58,
+      label: "Lockfile filter",
       body: "Skip lockfiles here too, or the 100k character budget is spent on yarn.lock before the real diff reaches the model.",
     },
   ],
@@ -70,10 +74,15 @@ export const LOCKFILE_SAMPLE_REVIEW: SampleReviewPreview = {
     {
       path: "features/reviews/server/pr-files.ts",
       line: 18,
+      label: "Lockfile skip",
       body: "Good skip. Without it a lockfile PR looks huge to the LLM and you get vague comments that never mention the real one-line change.",
     },
   ],
 };
+
+function commentHeading(path: string) {
+  return path.split("/").pop() || path;
+}
 
 function clip(text: string, max: number) {
   const trimmed = text.replace(/\s+/g, " ").trim();
@@ -135,6 +144,7 @@ export function fromGithubPayload(input: {
     .map((c) => ({
       path: c.path ?? "file",
       line: c.line ?? c.original_line ?? null,
+      label: commentHeading(c.path ?? "file"),
       body: clip(c.body ?? "", 280),
     }));
 

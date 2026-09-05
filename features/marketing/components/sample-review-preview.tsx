@@ -76,8 +76,7 @@ function ReviewPane({ sample }: { sample: Sample }) {
                 className="rounded-lg border border-primary/20 bg-primary/5 px-3 py-2"
               >
                 <p className="text-[11px] font-medium text-primary">
-                  {comment.path}
-                  {comment.line != null ? `:${comment.line}` : ""}
+                  {comment.label ?? comment.path}
                 </p>
                 <p className="mt-1 text-xs leading-5 text-foreground">
                   {comment.body}
