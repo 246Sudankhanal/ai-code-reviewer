@@ -4,6 +4,7 @@ import { APP_DOMAIN } from "@/lib/brand";
 const nextConfig: NextConfig = {
   output: "standalone",
   allowedDevOrigins: [
+    "localhost:3000",
     "quickly-tactics-uninstall.ngrok-free.dev",
     APP_DOMAIN,
     `www.${APP_DOMAIN}`,

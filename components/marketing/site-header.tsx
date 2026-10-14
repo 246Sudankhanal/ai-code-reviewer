@@ -12,12 +12,21 @@ export async function SiteHeader() {
   const signedIn = Boolean(session?.user);
 
   return (
-    <header className="flex items-center justify-between px-6 py-4">
-      <Link href="/" prefetch className="flex items-center gap-2">
-        <BrandLogo size={32} priority className="size-8 rounded-lg" />
-        <span className="text-sm font-semibold tracking-tight">{APP_NAME}</span>
-      </Link>
-      <nav className="flex items-center gap-1 sm:gap-2">
+    <header className="border-b border-border/80">
+      <div className="mx-auto flex h-14 w-full max-w-5xl items-center justify-between px-6">
+        <Link href="/" prefetch className="flex items-center gap-2">
+          <BrandLogo size={32} priority className="size-8 rounded-lg" />
+          <span className="text-sm font-semibold tracking-tight">{APP_NAME}</span>
+        </Link>
+        <nav className="flex items-center gap-1 sm:gap-2">
+        <Button
+          size="sm"
+          variant="ghost"
+          nativeButton={false}
+          render={<Link href="/#how-it-works" prefetch />}
+        >
+          How it works
+        </Button>
         <Button
           size="sm"
           variant="ghost"
@@ -39,7 +48,8 @@ export async function SiteHeader() {
             Sign in
           </Button>
         )}
-      </nav>
+        </nav>
+      </div>
     </header>
   );
 }

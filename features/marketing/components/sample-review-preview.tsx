@@ -113,11 +113,11 @@ export function SampleReviewPreview({ sample }: { sample: Sample }) {
           Sample output
         </p>
         <h2 className="font-heading text-2xl tracking-tight">
-          Files, inline notes, and a summary.
+          Same shape as a real GitHub review.
         </h2>
         <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-          Switch between Files and Conversation to see what the bot posts on a
-          pull request. Sign in only when you want this on your own repos.
+          Files shows inline notes on added lines. Conversation is the summary
+          comment. Sign in only when you want this on your own repositories.
         </p>
       </div>
 

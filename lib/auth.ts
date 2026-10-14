@@ -20,6 +20,7 @@ export const auth = betterAuth({
 
    plugins: [nextCookies()] ,
    advanced: {
-    useSecureCookies: true, // Required for ngrok's HTTPS
+    useSecureCookies:
+      (process.env.BETTER_AUTH_URL ?? "").startsWith("https://"),
   },
 });

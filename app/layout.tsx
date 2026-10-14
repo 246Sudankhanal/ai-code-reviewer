@@ -30,15 +30,19 @@ export const metadata: Metadata = {
     template: `%s · ${APP_NAME}`,
   },
   description:
-    "AI Code Reviewer (aiprreviewer) — open-source GitHub pull request reviews with inline comments and a summary. Portfolio project by Sudan Khanal.",
+    "Open-source GitHub App that posts AI pull request reviews: inline comments on added lines, a summary, and a second-model judge. Built by Sudan Khanal.",
   applicationName: APP_NAME,
   icons: {
     icon: [{ url: "/logo.png", type: "image/png" }],
     apple: [{ url: "/logo.png" }],
   },
   openGraph: {
-    title: APP_NAME,
+    title: `${APP_NAME} — AI Code Reviewer`,
+    description:
+      "GitHub App that drafts inline PR comments and a summary, judged by a second model before posting.",
     siteName: APP_NAME,
+    type: "website",
+    url: `https://${APP_DOMAIN}`,
     images: [{ url: "/logo.png", width: 512, height: 512, alt: APP_NAME }],
   },
   verification: {

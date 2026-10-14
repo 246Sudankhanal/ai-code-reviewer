@@ -5,6 +5,7 @@ import {
   CONTACT_EMAIL,
   GITHUB_PROFILE_URL,
   GITHUB_REPO_URL,
+  LINKEDIN_PROFILE_URL,
   PRODUCT_TITLE,
   SITE_URL,
 } from "@/lib/brand";
@@ -38,6 +39,12 @@ export default function ContactPage() {
           Source code:{" "}
           <a href={GITHUB_REPO_URL} target="_blank" rel="noreferrer">
             {GITHUB_REPO_URL}
+          </a>
+        </li>
+        <li>
+          LinkedIn:{" "}
+          <a href={LINKEDIN_PROFILE_URL} target="_blank" rel="noreferrer">
+            {LINKEDIN_PROFILE_URL}
           </a>
         </li>
       </ul>

@@ -4,6 +4,7 @@ import {
   CONTACT_EMAIL,
   GITHUB_PROFILE_URL,
   GITHUB_REPO_URL,
+  LINKEDIN_PROFILE_URL,
   PRODUCT_TITLE,
   SITE_URL,
 } from "@/lib/brand";
@@ -14,6 +15,7 @@ const footerLinks = [
   { href: "/terms", label: "Terms" },
   { href: GITHUB_REPO_URL, label: "Source", external: true },
   { href: GITHUB_PROFILE_URL, label: "GitHub", external: true },
+  { href: LINKEDIN_PROFILE_URL, label: "LinkedIn", external: true },
 ];
 
 export function SiteFooter() {
@@ -23,8 +25,10 @@ export function SiteFooter() {
         <div className="max-w-sm space-y-2">
           <p className="text-sm font-medium">{PRODUCT_TITLE}</p>
           <p className="text-xs leading-5 text-muted-foreground">
-            Open-source portfolio project by {AUTHOR_NAME}. Operator of{" "}
-            <span className="text-foreground">{SITE_URL.replace("https://", "")}</span>
+            Open-source GitHub PR reviewer by {AUTHOR_NAME}. Operator of{" "}
+            <span className="text-foreground">
+              {SITE_URL.replace("https://", "")}
+            </span>
             .
           </p>
           <p className="text-xs text-muted-foreground">
