@@ -47,11 +47,14 @@ Open [http://localhost:3000](http://localhost:3000). For GitHub webhooks on a la
 
 Needs a filled `.env` (Neon `DATABASE_URL` and the rest). Compose does not run Postgres — use Neon.
 
+Production VPS: **pull the GHCR image**, do not `--build` on a small instance (it OOMs).
+
 ```bash
-docker compose up --build
+docker compose pull
+docker compose up -d
 ```
 
-The container runs `prisma migrate deploy`, then starts the app on port 3000.
+Migrations run in GitHub Actions (`prisma migrate deploy`), not inside the app container. The container only starts Next.js.
 
 ## GitHub App endpoints
 

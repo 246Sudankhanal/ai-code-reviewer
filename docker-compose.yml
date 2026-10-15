@@ -16,6 +16,7 @@ services:
       INNGEST_DEV: "0"
       INNGEST_SERVE_ORIGIN: https://aiprreviewer.com
       INNGEST_SERVE_PATH: /api/inngest
+      OTEL_SERVICE_NAME: aiprreviewer
 
   caddy:
     build:
