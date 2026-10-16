@@ -96,10 +96,9 @@ jobs:
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           envs: GHCR_TOKEN,GHCR_USER,REPO,BRANCH,DEPLOY_PATH
           command_timeout: 10m
-          script_stop: true
           script: |
             set -euo pipefail
-            APP_DIR="${DEPLOY_PATH:-/home/ubuntu/ai-code-reviewer}"
+            APP_DIR="${DEPLOY_PATH:-/home/ec2-user/ai-code-reviewer}"
             cd "$APP_DIR"
             git fetch --depth=1 "https://x-access-token:${GHCR_TOKEN}@github.com/${REPO}.git" "$BRANCH"
             git reset --hard FETCH_HEAD
