@@ -7,11 +7,10 @@ on:
 
 jobs:
   ci:
-    name: Lint and build
+    name: Lint, test, and build
     runs-on: ubuntu-latest
     env:
-      # Placeholder only — Prisma generate / Next build do not open a live DB.
-      # Runtime uses Neon via DATABASE_URL in your host / container env.
+      
       DATABASE_URL: postgresql://ci:ci@localhost:5432/ci
       BETTER_AUTH_SECRET: ci-better-auth-secret-32-chars-min
       GITHUB_CLIENT_ID: ci-github-client
@@ -32,6 +31,9 @@ jobs:
 
       - name: Lint
         run: npm run lint
+
+      - name: Test
+        run: npm test
 
       - name: Build
         run: npm run build
