@@ -8,4 +8,4 @@ export const GITHUB_PROFILE_URL = "https://github.com/246Sudankhanal";
 export const GITHUB_REPO_URL =
   "https://github.com/246Sudankhanal/ai-code-reviewer";
 export const LINKEDIN_PROFILE_URL =
-  "https://www.linkedin.com/in/sudankhanal246";
+  "https://www.linkedin.com/in/sudan-khanal-6266aa313/";
