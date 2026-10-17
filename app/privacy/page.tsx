@@ -13,7 +13,7 @@ export default function PrivacyPage() {
     <LegalPage title="Privacy Policy">
       <p>Last updated: 4 September 2026. Operated by {AUTHOR_NAME}.</p>
       <p>
-        aiprreviewer ({SITE_URL}) is an open-source portfolio product that posts
+        AI PR Reviewer ({SITE_URL}) is an open-source portfolio product that posts
         AI-generated comments on GitHub pull requests you connect. This page
         explains what we store and why.
       </p>

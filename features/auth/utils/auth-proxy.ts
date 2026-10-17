@@ -30,7 +30,7 @@ export async function handleAuthProxy(request: NextRequest) {
     headers: request.headers,
   });
 
-  if (pathname === SIGN_IN_PATH) {
+  if (pathname === SIGN_IN_PATH || pathname === `${SIGN_IN_PATH}/`) {
     if (session) {
       const redirectPath = getPostAuthRedirectPath(request);
       return NextResponse.redirect(new URL(redirectPath, request.url));

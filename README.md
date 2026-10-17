@@ -1,4 +1,4 @@
-# aiprreviewer
+# AI PR Reviewer
 
 AI pull request reviews on GitHub. Install the app, open a PR, get an inline review plus a summary — with a second model judging whether the comment is worth posting.
 

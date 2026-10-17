@@ -13,7 +13,7 @@ export default function TermsPage() {
     <LegalPage title="Terms of Use">
       <p>Last updated: 4 September 2026. Operated by {AUTHOR_NAME}.</p>
       <p>
-        aiprreviewer is a student portfolio / open-source tool. Source:{" "}
+        AI PR Reviewer is a student portfolio / open-source tool. Source:{" "}
         <a href={GITHUB_REPO_URL} target="_blank" rel="noreferrer">
           {GITHUB_REPO_URL}
         </a>

@@ -43,7 +43,7 @@ export async function SiteHeader() {
             size="sm"
             variant="ghost"
             nativeButton={false}
-            render={<Link href={SIGN_IN_PATH} prefetch />}
+            render={<Link href={SIGN_IN_PATH} prefetch={false} />}
           >
             Sign in
           </Button>

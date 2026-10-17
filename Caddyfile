@@ -13,9 +13,17 @@ aiprreviewer.com {
 		max_size 10MB
 	}
 
-	# GitHub/Stripe/Inngest + ACME: no gzip, no burst limit, longer timeouts.
+	redir /sign-in/ /sign-in 308
+
+	# Webhooks, Inngest, ACME, and Next assets: no gzip, no burst limit.
+	# First-load /_next chunks easily exceed 30 req/10s and Next then 404s client navigations.
 	@unthrottled {
-		path /api/github/webhook /api/stripe/webhook /api/inngest* /.well-known*
+		path /api/github/webhook /api/stripe/webhook /api/inngest* /.well-known* /_next/*
+	}
+
+	# RSC / prefetch flights break if Caddy gzips them.
+	@rsc {
+		header RSC *
 	}
 
 	handle @unthrottled {
@@ -31,6 +39,19 @@ aiprreviewer.com {
 		}
 	}
 
+	handle @rsc {
+		reverse_proxy app:3000 {
+			header_up Host {host}
+			header_up X-Forwarded-Host {host}
+			header_up X-Forwarded-Proto {scheme}
+			transport http {
+				dial_timeout 5s
+				read_timeout 60s
+				write_timeout 60s
+			}
+		}
+	}
+
 	handle {
 		encode gzip
 		header {
@@ -41,20 +62,20 @@ aiprreviewer.com {
 		rate_limit {
 			zone per_ip_burst {
 				key {client_ip}
-				events 30
+				events 80
 				window 10s
 			}
 			zone per_ip_minute {
 				key {client_ip}
-				events 120
+				events 240
 				window 1m
 			}
 			zone auth {
 				match {
-					path /api/auth/* /sign-in
+					path /api/auth/* /sign-in /sign-in/
 				}
 				key {client_ip}
-				events 20
+				events 40
 				window 1m
 			}
 		}

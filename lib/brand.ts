@@ -1,6 +1,6 @@
-export const APP_NAME = "aiprreviewer";
+export const APP_NAME = "AI PR Reviewer";
 export const APP_DOMAIN = "aiprreviewer.com";
-export const PRODUCT_TITLE = "AI Code Reviewer";
+export const PRODUCT_TITLE = "AI PR Reviewer";
 export const SITE_URL = `https://${APP_DOMAIN}`;
 export const AUTHOR_NAME = "Sudan Khanal";
 export const CONTACT_EMAIL = "sudankhanal246@gmail.com";

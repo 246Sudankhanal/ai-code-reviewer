@@ -82,7 +82,7 @@ export default async function Home() {
                 <Button
                   size="lg"
                   nativeButton={false}
-                  render={<Link href={SIGN_IN_PATH} prefetch />}
+                  render={<Link href={SIGN_IN_PATH} prefetch={false} />}
                 >
                   Sign in with GitHub
                 </Button>

@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     apple: [{ url: "/logo.png" }],
   },
   openGraph: {
-    title: `${APP_NAME} — AI Code Reviewer`,
+    title: APP_NAME,
     description:
       "GitHub App that drafts inline PR comments and a summary, judged by a second model before posting.",
     siteName: APP_NAME,
