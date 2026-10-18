@@ -8,7 +8,7 @@ The homepage shows a live sample review so you can judge the output without sign
 
 ![Homepage](docs/screenshots/landing.png)
 
-![Architecture](docs/architecture.svg)
+![Architecture](docs/review-path.svg)
 
 ## What it does
 
