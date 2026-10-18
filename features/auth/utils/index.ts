@@ -1,4 +1,5 @@
 export const SIGN_IN_PATH = "/sign-in";
+export const HOME_PATH = "/";
 export const DEFAULT_AUTH_CALLBACK = "/dashboard";
 
 export function getSafeCallbackPath(
