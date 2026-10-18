@@ -4,6 +4,10 @@ AI pull request reviews on GitHub. Install the app, open a PR, get an inline rev
 
 The homepage shows a live sample review so you can judge the output without signing in.
 
+**Live:** [aiprreviewer.com](https://aiprreviewer.com)
+
+![Homepage](docs/screenshots/landing.png)
+
 ## What it does
 
 1. **Connect** — GitHub OAuth login, then install the GitHub App on the repos you want reviewed.
