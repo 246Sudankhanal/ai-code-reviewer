@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="430" viewBox="0 0 940 430" role="img" aria-label="How a review gets onto a pull request">
+  <rect width="100%" height="100%" fill="#f4eee4"/>
+  <text x="28" y="32" font-family="Georgia, Times, serif" font-size="16" fill="#241e18">How a review gets onto a pull request</text>
+  <rect x="28" y="58" width="130" height="56" rx="3" fill="#fffdf8" stroke="#241e18" stroke-width="1.2"/>
+  <text x="93.0" y="82.0" text-anchor="middle" font-family="Georgia, Times, serif" font-size="13" fill="#241e18">GitHub</text>
+  <text x="93.0" y="100.0" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" fill="#6e6458">PR opened / pushed</text>
+  <line x1="158" y1="86" x2="220" y2="86" stroke="#b24c1c" stroke-width="1.4"/>
+  <polygon points="219,82 228,86 219,90" fill="#b24c1c"/>
+  <text x="193.0" y="78" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" fill="#6e6458">webhook</text>
+  <rect x="228" y="58" width="150" height="56" rx="3" fill="#fffdf8" stroke="#241e18" stroke-width="1.2"/>
+  <text x="303.0" y="82.0" text-anchor="middle" font-family="Georgia, Times, serif" font-size="13" fill="#241e18">Next.js</text>
+  <text x="303.0" y="100.0" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" fill="#6e6458">AWS · signed webhook</text>
+  <line x1="378" y1="86" x2="440" y2="86" stroke="#b24c1c" stroke-width="1.4"/>
+  <polygon points="439,82 448,86 439,90" fill="#b24c1c"/>
+  <text x="413.0" y="78" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" fill="#6e6458">event</text>
+  <rect x="448" y="58" width="130" height="56" rx="3" fill="#fffdf8" stroke="#241e18" stroke-width="1.2"/>
+  <text x="513.0" y="82.0" text-anchor="middle" font-family="Georgia, Times, serif" font-size="13" fill="#241e18">Inngest</text>
+  <text x="513.0" y="100.0" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" fill="#6e6458">background job</text>
+  <rect x="620" y="58" width="210" height="56" rx="2" fill="none" stroke="#d4c8b6" stroke-dasharray="3 3"/>
+  <text x="725.0" y="90.0" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" fill="#6e6458">Neon keeps PR status</text>
+  <line x1="513" y1="114" x2="513" y2="160" stroke="#b24c1c" stroke-width="1.4"/>
+  <polygon points="509,159 513,168 517,159" fill="#b24c1c"/>
+  <text x="28" y="158" text-anchor="start" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" fill="#6e6458">Inside the job</text>
+  <rect x="28" y="176" width="175" height="52" rx="3" fill="#fffdf8" stroke="#241e18" stroke-width="1.2"/>
+  <text x="115.5" y="198.0" text-anchor="middle" font-family="Georgia, Times, serif" font-size="13" fill="#241e18">Octokit</text>
+  <text x="115.5" y="216.0" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" fill="#6e6458">diff for this commit</text>
+  <rect x="228" y="176" width="175" height="52" rx="3" fill="#fffdf8" stroke="#241e18" stroke-width="1.2"/>
+  <text x="315.5" y="198.0" text-anchor="middle" font-family="Georgia, Times, serif" font-size="13" fill="#241e18">Pinecone</text>
+  <text x="315.5" y="216.0" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" fill="#6e6458">nearby code, if synced</text>
+  <rect x="428" y="176" width="175" height="52" rx="3" fill="#fffdf8" stroke="#241e18" stroke-width="1.2"/>
+  <text x="515.5" y="198.0" text-anchor="middle" font-family="Georgia, Times, serif" font-size="13" fill="#241e18">OpenRouter</text>
+  <text x="515.5" y="216.0" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" fill="#6e6458">writes the review</text>
+  <rect x="628" y="176" width="204" height="52" rx="3" fill="#fffdf8" stroke="#241e18" stroke-width="1.2"/>
+  <text x="730.0" y="198.0" text-anchor="middle" font-family="Georgia, Times, serif" font-size="13" fill="#241e18">OpenRouter</text>
+  <text x="730.0" y="216.0" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" fill="#6e6458">judge: post / rewrite / skip</text>
+  <line x1="203" y1="202" x2="220" y2="202" stroke="#b24c1c" stroke-width="1.4"/>
+  <polygon points="219,198 228,202 219,206" fill="#b24c1c"/>
+  <line x1="403" y1="202" x2="420" y2="202" stroke="#b24c1c" stroke-width="1.4"/>
+  <polygon points="419,198 428,202 419,206" fill="#b24c1c"/>
+  <line x1="603" y1="202" x2="620" y2="202" stroke="#b24c1c" stroke-width="1.4"/>
+  <polygon points="619,198 628,202 619,206" fill="#b24c1c"/>
+  <line x1="730" y1="228" x2="730" y2="284" stroke="#b24c1c" stroke-width="1.4"/>
+  <polygon points="726,283 730,292 734,283" fill="#b24c1c"/>
+  <rect x="590" y="300" width="242" height="56" rx="3" fill="#fffdf8" stroke="#241e18" stroke-width="1.2"/>
+  <text x="711.0" y="324.0" text-anchor="middle" font-family="Georgia, Times, serif" font-size="13" fill="#241e18">Comment on the PR</text>
+  <text x="711.0" y="342.0" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" fill="#6e6458">inline notes + summary</text>
+  <line x1="93" y1="114" x2="93" y2="300" stroke="#d4c8b6" stroke-width="1"/>
+  <line x1="93" y1="300" x2="590" y2="328" stroke="#d4c8b6" stroke-width="1"/>
+  <text x="28" y="410" text-anchor="start" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" fill="#6e6458">Push to main can re-index the repo into Pinecone. Stripe only gates how many reviews run.</text>
+</svg>

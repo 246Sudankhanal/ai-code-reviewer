@@ -8,6 +8,8 @@ The homepage shows a live sample review so you can judge the output without sign
 
 ![Homepage](docs/screenshots/landing.png)
 
+![Architecture](docs/architecture.svg)
+
 ## What it does
 
 1. **Connect** — GitHub OAuth login, then install the GitHub App on the repos you want reviewed.
