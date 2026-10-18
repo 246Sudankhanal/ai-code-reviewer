@@ -35,7 +35,9 @@ const SignInPage = async({searchParams}:SignInPageProps) => {
      <Card className="border-border/80 shadow-sm">
       <CardHeader className="items-center text-center">
         <div className="mb-4 flex justify-center pt-2">
-          <BrandLogo size={64} priority className="size-16 rounded-xl" />
+          <Link href="/" className="rounded-xl outline-none focus-visible:ring-2">
+            <BrandLogo size={64} priority className="size-16 rounded-xl" />
+          </Link>
         </div>
         <CardTitle className="text-base">{APP_NAME}</CardTitle>
         <CardDescription>

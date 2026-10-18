@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 
-import { DASHBOARD_ROUTES } from "@/features/dashboard/lib/routes";
 import { DashboardNav } from "@/features/dashboard/components/dashboard-nav";
 import { SidebarUserButton } from "@/features/dashboard/components/sidebar-user-button";
 import {
@@ -34,7 +33,7 @@ export function DashboardSidebar({ user, plan = "Pro" }: DashboardSidebarProps) 
               size="lg"
               tooltip={APP_NAME}
               render={
-                <Link href={DASHBOARD_ROUTES.overview} prefetch>
+                <Link href="/" prefetch>
                   <span className="flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-primary/10">
                     <BrandLogo size={32} className="size-8" />
                   </span>

@@ -14,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { SIGN_IN_PATH } from "../utils";
+import { HOME_PATH } from "../utils";
 import { CaretCircleUpIcon, SignOutIcon } from "@phosphor-icons/react";
 
 const DEFAULT_PLAN = "Free";
@@ -82,7 +82,7 @@ export function UserMenu({
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
-          router.push(SIGN_IN_PATH);
+          router.push(HOME_PATH);
         },
       },
     });
