@@ -15,6 +15,8 @@ import {
   PRODUCT_TITLE,
 } from "@/lib/brand";
 
+export const dynamic = "force-dynamic";
+
 const STEPS = [
   {
     title: "Connect the GitHub App",

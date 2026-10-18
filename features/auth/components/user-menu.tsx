@@ -1,6 +1,6 @@
 "use client";
-import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import { signOutUser } from "../actions";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -14,7 +14,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { HOME_PATH } from "../utils";
 import { CaretCircleUpIcon, SignOutIcon } from "@phosphor-icons/react";
 
 const DEFAULT_PLAN = "Free";
@@ -75,17 +74,10 @@ export function UserMenu({
   plan = DEFAULT_PLAN,
   className,
 }: UserMenuProps) {
-  const router = useRouter();
   const displayName = getDisplayName(user);
 
   const handleSignOut = async () => {
-    await authClient.signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          router.push(HOME_PATH);
-        },
-      },
-    });
+    await signOutUser();
   };
 
   return (
