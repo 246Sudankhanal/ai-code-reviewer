@@ -6,6 +6,8 @@ The homepage shows a live sample review so you can judge the output without sign
 
 **Live:** [aiprreviewer.com](https://aiprreviewer.com)
 
+**Walkthrough:** [3 min Loom](https://www.loom.com/share/9809ae6538d9457099a364a0b1367110)
+
 ![Homepage](docs/screenshots/landing.png)
 
 ![Architecture](docs/how-a-review-posts.png)
